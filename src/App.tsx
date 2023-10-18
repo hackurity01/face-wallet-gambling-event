@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { Button, AutoCenter, Input } from 'antd-mobile';
 
 function App() {
+  const [code, setCode] = useState<string>('');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <div style={{ background: "#ace0ff" }}>
+        <SafeArea position="top" />
+      </div> */}
+
+      <AutoCenter>
+        <div>
+          <Input
+            placeholder="게임 코드를 입력해주세요"
+            value={code}
+            onChange={(val) => {
+              setCode(val);
+            }}
+          />
+          <Button>asfd</Button>
+        </div>
+      </AutoCenter>
+      {/* <div style={{ background: "#ffcfac" }}>
+        <SafeArea position="bottom" />
+      </div> */}
     </div>
   );
 }
