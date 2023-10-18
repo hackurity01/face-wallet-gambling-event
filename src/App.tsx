@@ -19,10 +19,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <div style={{ background: "#ace0ff" }}>
-        <SafeArea position="top" />
-      </div> */}
-
       <AutoCenter>
         <div>
           <Input
@@ -35,9 +31,6 @@ function App() {
           <Button>asfd</Button>
         </div>
       </AutoCenter>
-      {/* <div style={{ background: "#ffcfac" }}>
-        <SafeArea position="bottom" />
-      </div> */}
     </div>
   );
 }
