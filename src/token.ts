@@ -1,4 +1,8 @@
-export const tokenAddress = '0x4BDBC68148b6FBc4Da80983387fC3D14aE388DB2';
+import { isTestnet } from './face';
+
+export const tokenAddress = isTestnet
+  ? '0x4BDBC68148b6FBc4Da80983387fC3D14aE388DB2'
+  : '0x4e6ffe3b9f0107b6285494429a6a241d97fcfcab';
 export const tokenAbi = [
   {
     constant: true,

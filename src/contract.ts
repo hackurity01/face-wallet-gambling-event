@@ -1,4 +1,7 @@
-export const contractAddress = '0xF069b04799530bD7e2bB355522c58e4F76d592dc';
+import { isTestnet } from './face';
+export const contractAddress = isTestnet
+  ? '0xF069b04799530bD7e2bB355522c58e4F76d592dc'
+  : '0x84C6B174C9eD74486DF917118Bd5dab88BC8Bbe7';
 export const contractAbi = [
   {
     inputs: [

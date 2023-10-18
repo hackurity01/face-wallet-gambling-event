@@ -1,7 +1,7 @@
 import './AdminPage.css';
 
 import { Button, Input, Form, Space } from 'antd-mobile';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { face } from '../face';
 import { ethers, BigNumber } from 'ethers';
 import { contractAbi, contractAddress } from '../contract';
@@ -11,6 +11,16 @@ function AdminPage() {
   const [gameId, setGameId] = useState<string>('');
   const [winnerAddress, setWinnerAddress] = useState<string>('');
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
+
+  useEffect(() => {
+    (async function () {
+      try {
+        await face.auth.login();
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
 
   const handleCreateGame = async () => {
     try {
