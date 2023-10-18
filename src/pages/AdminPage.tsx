@@ -1,17 +1,18 @@
 import './AdminPage.css';
 
-import { Button, Input, Form } from 'antd-mobile';
+import { Button, Input, Form, Space } from 'antd-mobile';
 import { useState } from 'react';
 import { face } from '../face';
 import { ethers, BigNumber } from 'ethers';
 import { contractAbi, contractAddress } from '../contract';
-import { getParticipantsMap } from '../utils';
+import { getParticipantsMap, finishGame, getGame } from '../utils';
 
 function AdminPage() {
   const [gameId, setGameId] = useState<string>('');
+  const [winnerAddress, setWinnerAddress] = useState<string>('');
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
 
-  const createGame = async () => {
+  const handleCreateGame = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(face.getEthLikeProvider());
       const signer = provider.getSigner();
@@ -23,9 +24,25 @@ function AdminPage() {
       console.error(e);
     }
   };
-  const getGame = async () => {
+  const handleGetGame = async () => {
+    try {
+      console.log('handleGetGame', await getGame(gameId));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const getParticipants = async () => {
     try {
       setParticipants(await getParticipantsMap(gameId));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const handleFinishGame = async () => {
+    try {
+      const reward = await finishGame(gameId, winnerAddress);
+      console.log('reward', reward);
+      alert(`${reward} Unit 지급됨!\n(${winnerAddress})`);
     } catch (e) {
       console.error(e);
     }
@@ -34,10 +51,7 @@ function AdminPage() {
   return (
     <div className="AdminPage">
       <Form layout="horizontal">
-        <Form.Item
-          label="게임 ID"
-          name="username"
-          extra={<Button onClick={createGame}>게임 생성</Button>}>
+        <Form.Item label="게임 ID">
           <Input
             clearable
             className="AdminPage__gameId"
@@ -49,8 +63,31 @@ function AdminPage() {
             maxLength={4}
           />
         </Form.Item>
+        <Form.Item label="승자 주소">
+          <Input
+            clearable
+            className="AdminPage__gameId"
+            placeholder="0x00000000000000"
+            value={winnerAddress}
+            onChange={(val) => {
+              setWinnerAddress(val);
+            }}
+          />
+        </Form.Item>
       </Form>
-      <Button onClick={getGame}>게임 정보</Button>
+      <div>
+        <Space>
+          <Button onClick={handleGetGame}>게임 정보</Button>
+          <Button onClick={getParticipants}>참여자 보기</Button>
+          <Button color="danger" onClick={handleFinishGame}>
+            게임 종료
+          </Button>
+          <Button color="primary" onClick={handleCreateGame}>
+            게임 생성
+          </Button>
+        </Space>
+      </div>
+
       {participants && (
         <div>
           {Object.keys(participants).map((address) => (
