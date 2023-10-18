@@ -1,0 +1,10 @@
+.AdminPage {
+  padding: 10px;
+}
+
+.AdminPage .Admin__gameId {
+}
+
+.AdminPage .AdminPage__field {
+  text-align: right;
+}

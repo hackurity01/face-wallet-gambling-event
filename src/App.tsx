@@ -1,37 +1,15 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { Button, AutoCenter, Input } from 'antd-mobile';
-import { face } from './face';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import BettingPage from './pages/BettingPage';
+import AdminPage from './pages/AdminPage';
 
 function App() {
-  const [code, setCode] = useState<string>('');
-
-  useEffect(() => {
-    (async function () {
-      const isLoggedIn = await face.auth.isLoggedIn();
-      console.log('test', isLoggedIn);
-
-      if (!isLoggedIn) {
-        await face.auth.login();
-      }
-    })();
-  }, []);
-
   return (
-    <div className="App">
-      <AutoCenter>
-        <div>
-          <Input
-            placeholder="게임 코드를 입력해주세요"
-            value={code}
-            onChange={(val) => {
-              setCode(val);
-            }}
-          />
-          <Button>asfd</Button>
-        </div>
-      </AutoCenter>
-    </div>
+    <BrowserRouter basename="/face-wallet-gambling-event">
+      <Routes>
+        <Route path="/" element={<BettingPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
