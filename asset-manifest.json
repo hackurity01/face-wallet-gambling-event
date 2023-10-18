@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/face-wallet-gambling-event/static/css/main.0e93e800.css",
-    "main.js": "/face-wallet-gambling-event/static/js/main.5f97c302.js",
+    "main.css": "/face-wallet-gambling-event/static/css/main.1947fe7f.css",
+    "main.js": "/face-wallet-gambling-event/static/js/main.deac31c9.js",
     "index.html": "/face-wallet-gambling-event/index.html",
-    "main.0e93e800.css.map": "/face-wallet-gambling-event/static/css/main.0e93e800.css.map",
-    "main.5f97c302.js.map": "/face-wallet-gambling-event/static/js/main.5f97c302.js.map"
+    "main.1947fe7f.css.map": "/face-wallet-gambling-event/static/css/main.1947fe7f.css.map",
+    "main.deac31c9.js.map": "/face-wallet-gambling-event/static/js/main.deac31c9.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e93e800.css",
-    "static/js/main.5f97c302.js"
+    "static/css/main.1947fe7f.css",
+    "static/js/main.deac31c9.js"
   ]
 }
