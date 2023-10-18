@@ -1,5 +1,6 @@
 {
   "name": "workshop-event",
+  "homepage": "https://hackurity01.github.io/face-wallet-gambling-event",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "page": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
