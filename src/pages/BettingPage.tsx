@@ -3,7 +3,15 @@ import './BettingPage.css';
 import { useEffect, useState } from 'react';
 import { Button, Input, Space, Popup, Form } from 'antd-mobile';
 import { face, network } from '../face';
-import { bet, getParticipantsMap, numberWithCommas, getGame, enroll, getMyAmount, getMyBet } from '../utils';
+import {
+  bet,
+  getParticipantsMap,
+  numberWithCommas,
+  getGame,
+  enroll,
+  getMyBalance,
+  getMyBet,
+} from '../utils';
 import { BigNumber } from 'ethers';
 
 function BettingPage() {
@@ -15,7 +23,7 @@ function BettingPage() {
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [myAmount, setMyAmount] = useState<string>('?');
-  const [myBet, setMyBet] = useState<string>("?");
+  const [myBet, setMyBet] = useState<string>('?');
 
   useEffect(() => {
     (async function () {
@@ -87,8 +95,8 @@ function BettingPage() {
 
   const handleGetReward = async () => {
     try {
-      setMyAmount(await getMyAmount());
-      setMyBet((await getMyBet(gameId)).toNumber().toString());  
+      setMyAmount(await getMyBalance());
+      setMyBet((await getMyBet(gameId)).toNumber().toString());
     } catch (err) {
       console.error(err);
     }
@@ -185,7 +193,9 @@ function BettingPage() {
         </Space>
 
         {totalAmount !== undefined && (
-          <div className="BettingPage__body__reward">판돈: 총 {numberWithCommas(totalAmount)} Unit</div>
+          <div className="BettingPage__body__reward">
+            판돈: 총 {numberWithCommas(totalAmount)} Unit
+          </div>
         )}
         {myAmount !== undefined && (
           <div className="BettingPage__body__my">내 자산: {numberWithCommas(myAmount)} Unit</div>

@@ -80,16 +80,27 @@ export function numberWithCommas(x: string) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export async function getMyAmount() {
-  const address = getAddress();
+export async function getBalanceByAddress(address: string) {
   const tokenContract = getErc20Contract();
-  const balance = await tokenContract.balanceOf(address);
-  console.log('balance');
-  console.log(balance);
-  return balance;
+  return await tokenContract.balanceOf(address);
+}
+
+export async function getMyBalance() {
+  const address = await getAddress();
+  return getBalanceByAddress(address);
 }
 
 export async function enroll(name: string) {
   const contract = getContract();
   const tx = await contract.enRoll(name);
+}
+
+export async function getAllAddress() {
+  const contract = getContract();
+  return await contract.getAllUserList();
+}
+
+export async function getNames(address: string) {
+  const contract = getContract();
+  return await contract.names(address);
 }

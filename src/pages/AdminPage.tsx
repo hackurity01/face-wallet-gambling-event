@@ -37,7 +37,7 @@ function AdminPage() {
   };
   const handleGetGame = async () => {
     try {
-      setWinnerAddress("empty");
+      setWinnerAddress('empty');
       setGameInitialized(false);
       const game = await getGame(gameId);
       console.log('handleGetGame', game);
@@ -57,8 +57,7 @@ function AdminPage() {
   const handleFinishGame = async () => {
     try {
       const reward = await finishGame(gameId, winnerAddress);
-      console.log('reward', reward);
-      alert(`${reward} Unit 지급됨!\n(${winnerAddress})`);
+      console.log(reward);
     } catch (e) {
       console.error(e);
     }
@@ -94,16 +93,20 @@ function AdminPage() {
           <span>{String(gameInitialized)}</span>
         </Form.Item>
       </Form>
-      <div>
-        <Space>
-          <Button onClick={handleGetGame}>게임 정보</Button>
-          <Button onClick={getParticipants}>참여자 보기</Button>
-          <Button color="danger" onClick={handleFinishGame}>
-            게임 종료
-          </Button>
-          <Button color="primary" onClick={handleCreateGame}>
-            게임 생성
-          </Button>
+      <div style={{ marginTop: 30 }}>
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Space style={{ width: '100%' }} justify="around">
+            <Button color="danger" onClick={handleFinishGame}>
+              게임 종료
+            </Button>
+            <Button color="primary" onClick={handleCreateGame}>
+              게임 생성
+            </Button>
+          </Space>
+          <Space style={{ width: '100%' }} justify="around">
+            <Button onClick={handleGetGame}>게임 정보</Button>
+            <Button onClick={getParticipants}>참여자 보기</Button>
+          </Space>
         </Space>
       </div>
 
