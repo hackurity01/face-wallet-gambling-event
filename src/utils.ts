@@ -65,3 +65,8 @@ export async function bet(gameId: string, _amount: string) {
 export function numberWithCommas(x: string) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+export async function enroll(name: string) {
+  const contract = getContract();
+  const tx = await contract.enRoll(name);
+}
