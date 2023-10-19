@@ -88,3 +88,8 @@ export async function getMyAmount() {
   console.log(balance);
   return balance;
 }
+
+export async function enroll(name: string) {
+  const contract = getContract();
+  const tx = await contract.enRoll(name);
+}

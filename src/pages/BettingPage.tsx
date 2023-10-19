@@ -3,11 +3,13 @@ import './BettingPage.css';
 import { useEffect, useState } from 'react';
 import { Button, Input, Space, Popup, Form } from 'antd-mobile';
 import { face, network } from '../face';
-import { bet, getParticipantsMap, numberWithCommas, getGame, getMyAmount, getMyBet } from '../utils';
+import { bet, getParticipantsMap, numberWithCommas, getGame, enroll, getMyAmount, getMyBet } from '../utils';
 import { BigNumber } from 'ethers';
 
 function BettingPage() {
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
+  const [namePopupVisible, setNamePopupVisible] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
   const [gameId, setGameId] = useState<string>('');
   const [customAmount, setCustomAmount] = useState<string>('');
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
@@ -75,6 +77,14 @@ function BettingPage() {
     }
   };
 
+  const handleEnroll = async (name: string) => {
+    try {
+      await enroll(name);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleGetReward = async () => {
     try {
       setMyAmount(await getMyAmount());
@@ -118,9 +128,19 @@ function BettingPage() {
           shape="rectangular"
           fill="none"
           onClick={() => {
+            setNamePopupVisible(true);
+          }}>
+          Enroll
+        </Button>
+        <Button
+          className="BettingPage__header__btn"
+          size="small"
+          shape="rectangular"
+          fill="none"
+          onClick={() => {
             face.wallet.home({ networks: [network] });
           }}>
-          home
+          Wallet
         </Button>
         <Button
           className="BettingPage__header__btn"
@@ -130,7 +150,7 @@ function BettingPage() {
           onClick={() => {
             face.auth.logout();
           }}>
-          logout
+          Logout
         </Button>
       </div>
       <div className="BettingPage__body">
@@ -239,6 +259,49 @@ function BettingPage() {
               </Form.Item>
             </Form>
           </div>
+        </Popup>
+        <Popup
+          className="BettingPage__popup__enroll"
+          visible={namePopupVisible}
+          onMaskClick={() => {
+            setNamePopupVisible(false);
+          }}
+          onClose={() => {
+            setNamePopupVisible(false);
+          }}
+          position="top"
+          bodyStyle={{
+            height: '20vh',
+          }}>
+          <Form layout="horizontal">
+            <Form.Item
+              label="이름입력(영문)"
+              extra={
+                <Button
+                  style={{ marginLeft: 20 }}
+                  onClick={() => {
+                    if (!name) {
+                      return;
+                    }
+                    handleEnroll(name);
+                    setNamePopupVisible(false);
+                  }}>
+                  이름 변경
+                </Button>
+              }>
+              <Input
+                style={{ '--text-align': 'right' }}
+                clearable
+                placeholder="최대 8자"
+                value={name}
+                onChange={(val) => {
+                  const text = val.replace(/(?![a-zA-Z]).*/gi, '');
+                  setName(text);
+                }}
+                maxLength={8}
+              />
+            </Form.Item>
+          </Form>
         </Popup>
       </div>
     </div>
