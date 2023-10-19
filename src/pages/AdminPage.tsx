@@ -91,7 +91,7 @@ function AdminPage() {
           />
         </Form.Item>
         <Form.Item label="게임 생성됨">
-          <span></span>
+          <span>{String(gameInitialized)}</span>
         </Form.Item>
       </Form>
       <div>
