@@ -3,7 +3,7 @@ import './BettingPage.css';
 import { useEffect, useState } from 'react';
 import { Button, Input, Space, Popup, Form } from 'antd-mobile';
 import { face, network } from '../face';
-import { bet, getParticipantsMap, numberWithCommas, getGame } from '../utils';
+import { bet, getParticipantsMap, numberWithCommas, getGame, getMyAmount, getMyBet } from '../utils';
 import { BigNumber } from 'ethers';
 
 function BettingPage() {
@@ -12,6 +12,8 @@ function BettingPage() {
   const [customAmount, setCustomAmount] = useState<string>('');
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [myAmount, setMyAmount] = useState<string>('?');
+  const [myBet, setMyBet] = useState<string>("?");
 
   useEffect(() => {
     (async function () {
@@ -74,6 +76,13 @@ function BettingPage() {
   };
 
   const handleGetReward = async () => {
+    try {
+      setMyAmount(await getMyAmount());
+      setMyBet((await getMyBet(gameId)).toNumber().toString());  
+    } catch (err) {
+      console.error(err);
+    }
+
     if (!gameId) {
       alert('게임 ID를 입력해주세요.');
       return;
@@ -142,7 +151,7 @@ function BettingPage() {
             size="large"
             fill="none"
             onClick={handleGetReward}>
-            판돈 보기
+            판돈 & 정보 갱신
           </Button>
           <Button
             className="BettingPage__body__bettingBtn"
@@ -156,9 +165,14 @@ function BettingPage() {
         </Space>
 
         {totalAmount !== undefined && (
-          <div className="BettingPage__body__reward">총 {numberWithCommas(totalAmount)} Unit</div>
+          <div className="BettingPage__body__reward">판돈: 총 {numberWithCommas(totalAmount)} Unit</div>
         )}
-
+        {myAmount !== undefined && (
+          <div className="BettingPage__body__my">내 자산: {numberWithCommas(myAmount)} Unit</div>
+        )}
+        {myBet !== undefined && (
+          <div className="BettingPage__body__my_bet">내 베팅: {numberWithCommas(myBet)} Unit</div>
+        )}
         <Popup
           visible={popupVisible}
           onMaskClick={() => {

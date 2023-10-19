@@ -1,6 +1,7 @@
 import { face } from './face';
 import { ethers, BigNumber } from 'ethers';
 import { contractAbi, contractAddress } from './contract';
+import { tokenAbi, tokenAddress } from './token';
 
 export function getProvider() {
   return new ethers.providers.Web3Provider(face.getEthLikeProvider());
@@ -16,6 +17,11 @@ export function getContract() {
   return new ethers.Contract(contractAddress, contractAbi, signer);
 }
 
+export function getErc20Contract() {
+  const signer = getSigner();
+  return new ethers.Contract(tokenAddress, tokenAbi, signer);
+}
+
 export async function getAddress() {
   const signer = getSigner();
   return await signer.getAddress();
@@ -28,6 +34,14 @@ export async function getGame(gameId: string) {
 
 export async function getBettingAmount(gameId: string, address: string) {
   const contract = getContract();
+  const amount = await contract.getBetting(BigNumber.from(gameId), address);
+
+  return BigNumber.from(amount);
+}
+
+export async function getMyBet(gameId: string) {
+  const contract = getContract();
+  const address = await getAddress();
   const amount = await contract.getBetting(BigNumber.from(gameId), address);
 
   return BigNumber.from(amount);
@@ -64,4 +78,13 @@ export async function bet(gameId: string, _amount: string) {
 
 export function numberWithCommas(x: string) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export async function getMyAmount() {
+  const address = getAddress();
+  const tokenContract = getErc20Contract();
+  const balance = await tokenContract.balanceOf(address);
+  console.log('balance');
+  console.log(balance);
+  return balance;
 }
