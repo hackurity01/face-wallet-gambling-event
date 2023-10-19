@@ -7,4 +7,7 @@ const apiKey = isTestnet
   : 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhU-eBn1wmua-01Pd5mEW8VHI5FAFCPjWLAvo8R4gRjuAlUvjYAjFllDvHg_ldsYz749OB4zha3ckilpqw-WALrBNfSqTjrG71PuYD8DGIpWCsrtl7Okmh8Qauq8nS_UQirTSDIYhTXWbR7ZQ85XeVkOJkrhhEClcn4ykaeEgMQIDAQAB';
 export const network = isTestnet ? Network.MUMBAI : Network.POLYGON;
 
+console.log("api key " + apiKey);
+console.log("network " + network);
+console.log("testnet " + isTestnet);
 export const face = new Face({ apiKey, network } as never);

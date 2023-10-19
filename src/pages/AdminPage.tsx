@@ -11,6 +11,7 @@ function AdminPage() {
   const [gameId, setGameId] = useState<string>('');
   const [winnerAddress, setWinnerAddress] = useState<string>('');
   const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
+  const [gameInitialized, setGameInitialized] = useState<boolean>(false);
 
   useEffect(() => {
     (async function () {
@@ -36,7 +37,12 @@ function AdminPage() {
   };
   const handleGetGame = async () => {
     try {
-      console.log('handleGetGame', await getGame(gameId));
+      setWinnerAddress("empty");
+      setGameInitialized(false);
+      const game = await getGame(gameId);
+      console.log('handleGetGame', game);
+      setWinnerAddress(game.winner);
+      setGameInitialized(game.initialized);
     } catch (e) {
       console.error(e);
     }
@@ -83,6 +89,9 @@ function AdminPage() {
               setWinnerAddress(val);
             }}
           />
+        </Form.Item>
+        <Form.Item label="게임 생성됨">
+          <span></span>
         </Form.Item>
       </Form>
       <div>
