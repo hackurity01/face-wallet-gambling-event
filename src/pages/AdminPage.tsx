@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import { face } from '../face';
 import { ethers, BigNumber } from 'ethers';
 import { contractAbi, contractAddress } from '../contract';
-import { getParticipantsMap, finishGame, getGame } from '../utils';
+import { getParticipantsMap, finishGame, getGame, getNames } from '../utils';
 
 function AdminPage() {
   const [gameId, setGameId] = useState<string>('');
   const [winnerAddress, setWinnerAddress] = useState<string>('');
-  const [participants, setParticipants] = useState<{ [key: string]: BigNumber }>();
+  const [users, setUsers] = useState<{ name: string; address: string; amount: BigNumber }[]>();
   const [gameInitialized, setGameInitialized] = useState<boolean>(false);
 
   useEffect(() => {
@@ -49,7 +49,20 @@ function AdminPage() {
   };
   const getParticipants = async () => {
     try {
-      setParticipants(await getParticipantsMap(gameId));
+      const participantsMap = await getParticipantsMap(gameId);
+      const names = await Promise.all(
+        Object.keys(participantsMap).map((address) => getNames(address))
+      );
+
+      setUsers(
+        names.map((name, i) => {
+          return {
+            name,
+            address: Object.keys(participantsMap)[i],
+            amount: Object.values(participantsMap)[i],
+          };
+        })
+      );
     } catch (e) {
       console.error(e);
     }
@@ -110,11 +123,12 @@ function AdminPage() {
         </Space>
       </div>
 
-      {participants && (
+      {users && (
         <div>
-          {Object.keys(participants).map((address) => (
-            <div key={address}>
-              {address}: {participants[address].toString()}
+          {users.map((user) => (
+            <div key={user.address}>
+              {user.name}: {user.amount.toString()}
+              <br />({user.address})
             </div>
           ))}
         </div>

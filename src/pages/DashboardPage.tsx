@@ -20,7 +20,7 @@ function DashboardPage() {
       const addresses = await getAllAddress();
       const namePromiseList = [];
       const balancePromiseList = [];
-      console.log('addresses', addresses);
+
       for (let i = 0; i < addresses.length; i++) {
         const address = addresses[i];
 
