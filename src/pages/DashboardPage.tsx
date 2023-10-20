@@ -64,19 +64,21 @@ function DashboardPage() {
       }}>
       <Card>
         <List>
-          {users?.map((user) => (
-            <List.Item key={user.name}>
-              <Grid columns={12} gap={8}>
-                <Grid.Item span={1}>{user.name}</Grid.Item>
-                <Grid.Item span={3} style={{ textAlign: 'right' }}>
-                  {user.balance}
-                </Grid.Item>
-                <Grid.Item span={8} style={{ textAlign: 'right' }}>
-                  {user.address}
-                </Grid.Item>
-              </Grid>
-            </List.Item>
-          ))}
+          {users
+            ?.sort((a, b) => (a.balance.padStart(4, '0') > b.balance.padStart(4, '0') ? -1 : 1))
+            ?.map((user) => (
+              <List.Item key={user.name}>
+                <Grid columns={12} gap={8}>
+                  <Grid.Item span={1}>{user.name}</Grid.Item>
+                  <Grid.Item span={3} style={{ textAlign: 'right' }}>
+                    {user.balance}
+                  </Grid.Item>
+                  <Grid.Item span={8} style={{ textAlign: 'right' }}>
+                    {user.address}
+                  </Grid.Item>
+                </Grid>
+              </List.Item>
+            ))}
         </List>
       </Card>
     </div>
